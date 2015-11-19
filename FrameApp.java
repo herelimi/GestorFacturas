@@ -114,6 +114,8 @@ public class FrameApp extends JFrame {
 		JLabel lblNombre = new JLabel("Hola");
 		getContentPane().add(lblNombre);
 		
+		//hola caracola
+		
 		
 
 	}
