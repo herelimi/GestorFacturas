@@ -20,6 +20,7 @@ public class Usuario {
 	private String foto;
 	private ArrayList<Factura> facturas;
 	private ArrayList<Consulta> consultas;
+	private SecretKey key;
 	
 	
 
@@ -34,6 +35,12 @@ public class Usuario {
 		this.foto = foto;
 		this.facturas = facturas;
 		this.consultas = consultas;
+		try {
+			this.key =  KeyGenerator.getInstance("DES").generateKey();
+		} catch (NoSuchAlgorithmException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 
@@ -41,6 +48,12 @@ public class Usuario {
 		super();
 		this.nombre = nombre;
 		this.password = encriptar(password);
+		try {
+			this.key =  KeyGenerator.getInstance("DES").generateKey();
+		} catch (NoSuchAlgorithmException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 
@@ -49,6 +62,12 @@ public class Usuario {
 		this.nombre = nombre;
 		this.password = encriptar(password);
 		this.foto = foto;
+		try {
+			this.key =  KeyGenerator.getInstance("DES").generateKey();
+		} catch (NoSuchAlgorithmException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 
@@ -145,30 +164,25 @@ public class Usuario {
 	    public String encriptar(String password) {
 	        try {
 	        	
-	        	SecretKey key;
+	        	
 	        	Cipher ecipher = null;
-				try {
-					key = KeyGenerator.getInstance("DES").generateKey();
-					try {
-						ecipher = Cipher.getInstance("DES");
-					} catch (NoSuchPaddingException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}	        	
-		        	try {
-						ecipher.init(Cipher.ENCRYPT_MODE, key);
-					} catch (InvalidKeyException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-
-					
+	        	try {
+					ecipher = Cipher.getInstance("DES");
 				} catch (NoSuchAlgorithmException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
+				} catch (NoSuchPaddingException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}	
+				try {
+					ecipher.init(Cipher.ENCRYPT_MODE, this.key);
+				} catch (InvalidKeyException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
+				
 
-	        	
 
 	            // Encode the string into bytes using utf-8
 	            byte[] utf8 = password.getBytes("UTF8");
@@ -192,28 +206,24 @@ public class Usuario {
 	    public String desencriptar(String password) {
 	        try {
 	        	
-	        	SecretKey key;
-	        	Cipher dcipher = null;
+	        
+	        	
+				
+				Cipher dcipher = null;
 				try {
-					
-				key = KeyGenerator.getInstance("DES").generateKey();
-	        	try {
 					dcipher = Cipher.getInstance("DES");
-				} catch (NoSuchPaddingException e) {
+				} catch (NoSuchAlgorithmException | NoSuchPaddingException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-	        	try {
-					dcipher.init(Cipher.DECRYPT_MODE, key);
+			
+				try {
+					dcipher.init(Cipher.DECRYPT_MODE, this.key);
 				} catch (InvalidKeyException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				
-				} catch (NoSuchAlgorithmException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+			
 
 	        	
 	            // Decode base64 to get bytes
