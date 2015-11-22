@@ -2,6 +2,8 @@ package gestorFacturas;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.util.ArrayList;
@@ -23,9 +25,8 @@ public class FrameLogin extends JFrame {
 	private JTextField txtLogin;
 	private JPasswordField txtPassword;
 	private JComboBox basesDatos;
-	static ArrayList <Sector> alBD = new ArrayList <Sector>();
+	private Usuario usuario;
 	
-
 	/**
 	 * Launch the application.
 	 */
@@ -52,7 +53,6 @@ public class FrameLogin extends JFrame {
 	setContentPane(contentPane);
 	contentPane.setLayout(null);
 	
-	
 	JLabel lblAcceso = new JLabel("ACCESO AL SISTEMA DE FACTURACION PERSONAL");
 	lblAcceso.setBounds(65, 24, 286, 14);
 	contentPane.add(lblAcceso);
@@ -63,40 +63,16 @@ public class FrameLogin extends JFrame {
 	
 	JTextField txtLogin = new JTextField();
 	txtLogin.setBounds(240, 64, 86, 20);
-	String user = txtLogin.toString();
 	contentPane.add(txtLogin);
-	txtLogin.setColumns(10);
-
 	
 	JLabel lblPassword = new JLabel("Password");
 	lblPassword.setBounds(78, 99, 129, 14);
 	contentPane.add(lblPassword);
 	
 	txtPassword = new JPasswordField();
-	String password = txtPassword.toString();
 	txtPassword.setBounds(240, 95, 86, 20);
 	contentPane.add(txtPassword);
-	txtPassword.setColumns(10);
-	
-	if (ComprobarUsuario(user,password)==false){
-		
-		Object[] textoSalir = {"Si", "No"};
-		int opcion = JOptionPane.showOptionDialog(getRootPane(), 
-				"¿Desea Registrarse? ",				//Mensaje para el usuario
-				"Usuario No existe!!!...", 			//Titulo de la ventana
-				JOptionPane.YES_NO_OPTION, 			//tipo de opcion:  si o no
-				JOptionPane.QUESTION_MESSAGE,		//tipo de mensaje
-				null, 								//muestra icono por defecto  u otro icono
-				textoSalir,							//array con opciones
-				textoSalir[1]);  					//opcion a mostrar por defecto= si
-		        if (opcion == 1){ FrameUsuarioNuevo nuevoUser = new FrameUsuarioNuevo(); }
-		
-	}else{
-		txtLogin.setText(" ");		//Borrar campos de texto
-		txtPassword.setText(" ");
-	}
-	 
-	
+	 	
 	JLabel lblBD = new JLabel("Base de Datos");
 	lblBD.setBounds(78, 129, 129, 14);
 	contentPane.add(lblBD);
@@ -105,60 +81,68 @@ public class FrameLogin extends JFrame {
 	JButton btnAceptar = new JButton("Aceptar");
 	btnAceptar.setBounds(89, 210, 89, 23);
 	contentPane.add(btnAceptar);
+	btnAceptar.addActionListener(new ActionListener(){
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// TODO Auto-generated method stub
+			if(comprobarUsuario()){
+				new FrameApp(usuario);
+			}
+			
+			else
+				optionPanel();
+		}
+		
+	});
 	
 	JButton btnCancelar = new JButton("Cancelar");
 	btnCancelar.setBounds(262, 210, 89, 23);
 	contentPane.add(btnCancelar);
-	
-	
-	JComboBox objBD = new JComboBox();
-	llenarComboBox();
-	
-	//objBD.setModel(new DefaultComboBoxModel(new String[] { " ", " ", "" }));
-	objBD.setBounds(240, 126, 92, 20);
-	contentPane.add(objBD);
-	
+	btnCancelar.addActionListener(new ActionListener(){
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// TODO Auto-generated method stub
+			System.exit(0);
+			
+		}
+		
+	});
 	
 
 	
 	}
-	
-	
-	
-	//Metodo que llena el comboBox de bases de datos
-	public void llenarComboBox(){
-		
-		for (int i=0; i<alBD.size(); i++){
-			
-			//objBD.addItem(alBD.get(i).getNombre());
-			
-		}	
-		
 
-	}//fin del metodo llenarComboBox()
-	
-	
-	
-	
-	//Metodo que llena el array list de bases de datos
-		public void llenarArrayList(){
-
-			
-
-		}//fin del metodo llenarBD()
-	
-	
-		
 		
 	
 	//Metodo para comprobar que el usuario existe
-	public boolean ComprobarUsuario(String user, String password){
+	public boolean comprobarUsuario(){
 		
-		//la conexion se controlara desde otro lado.....
-		return true;
+		if(ConsultasSQL.buscarUsuario(txtLogin.getText(), txtPassword.getText())){
+			usuario = ConsultaSQL.recuperarUsuario(txtLogin.getText(), txtPassword.getText());
+			return true;
+		}
 		
-		
+		else
+			return false;
+
 	}//fin del metodo ComprobarUsuario()
+	
+	public void optionPanel(){
+		
+		Object[] textoSalir = {"Si", "No"};
+		int opcion = JOptionPane.showOptionDialog(getRootPane(), 
+				"ï¿½Desea Registrarse? ",				//Mensaje para el usuario
+				"Usuario No existe!!!...", 			//Titulo de la ventana
+				JOptionPane.YES_NO_OPTION, 			//tipo de opcion:  si o no
+				JOptionPane.QUESTION_MESSAGE,		//tipo de mensaje
+				null, 								//muestra icono por defecto  u otro icono
+				textoSalir,							//array con opciones
+				textoSalir[1]);  					//opcion a mostrar por defecto= si
+		        if (opcion == 1){ FrameUsuarioNuevo nuevoUser = new FrameUsuarioNuevo(); }
+		
+	}
 	
 	
 	
