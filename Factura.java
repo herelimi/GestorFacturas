@@ -1,5 +1,6 @@
 package gestorFacturas;
 
+<<<<<<< HEAD
 
 public class Factura {
 	private int id;
@@ -74,5 +75,8 @@ public class Factura {
 	}
 	
 	
+=======
+public class Factura {
+>>>>>>> 5c11ec654936630f38492c47718bc39fcc31c565
 
 }
