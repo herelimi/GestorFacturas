@@ -17,7 +17,7 @@ import java.util.ArrayList;
 public class FrameEmpresaNueva extends JFrame {
 
 	private JPanel contentPane;
-	private Usuario usuario;
+	private Usuario user;
 	private JTextField txtCif;
 	private JTextField txtNombre;
 	private JComboBox comboSector;
@@ -26,21 +26,6 @@ public class FrameEmpresaNueva extends JFrame {
 	private String CIF;
 	private Sector sector;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					FrameEmpresaNueva frame = new FrameEmpresaNueva();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 	public void crearEmpresa(){
 		
 		Empresa empresa=new Empresa( CIF,  nombreEmpresa,  sector);
@@ -52,7 +37,7 @@ public class FrameEmpresaNueva extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public FrameEmpresaNueva() {
+	public FrameEmpresaNueva(Usuario user) {
 		setTitle("AÑADIR EMPRESA");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 263, 274);

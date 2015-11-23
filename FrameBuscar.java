@@ -16,32 +16,16 @@ public class FrameBuscar extends JFrame {
 
 	private JPanel panelBuscar;
 	private String aBuscar;
-	private Usuario usuario;
+	private Usuario user;
 	private String filtro, campo, coincidir;
 	private JComboBox comboBoxBuscarEn;
 	private JComboBox comboBoxBuscar;
 	private JComboBox comboBoxCoincidir;
 
 	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					FrameBuscar frame = new FrameBuscar();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
 	 * Create the frame.
 	 */
-	public FrameBuscar() {
+	public FrameBuscar(Usuario user) {
 		setTitle("BUSCAR");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 506, 217);
@@ -49,6 +33,7 @@ public class FrameBuscar extends JFrame {
 		panelBuscar.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(panelBuscar);
 		panelBuscar.setLayout(null);
+		setLocationRelativeTo(null);
 		
 		JLabel lblBuscar = new JLabel("Buscar");
 		lblBuscar.setBounds(6, 32, 48, 16);
@@ -65,7 +50,8 @@ public class FrameBuscar extends JFrame {
 		comboBoxBuscarEn = new JComboBox();
 		comboBoxBuscarEn.setBounds(99, 83, 236, 27);
 		panelBuscar.add(comboBoxBuscarEn);
-		llenar("campos");
+		//llenar("campos");
+		
 		
 		JLabel lblCoincidir = new JLabel("Coincidir");
 		lblCoincidir.setBounds(6, 142, 61, 16);
@@ -78,7 +64,7 @@ public class FrameBuscar extends JFrame {
 		JButton btnBuscar = new JButton("Buscar");
 		btnBuscar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				buscar();
+				buscar(filtro, campo, coincidir);
 			}
 		});
 		btnBuscar.setBounds(367, 52, 117, 29);
@@ -93,17 +79,15 @@ public class FrameBuscar extends JFrame {
 		btnCancelar.setBounds(367, 109, 117, 29);
 		panelBuscar.add(btnCancelar);
 		
-		
 	}
 	public void buscar(String filtro, String campo, String coincidir){
-		
 		
 		
 	}
 	public void llenarCB(String iDfiltro){
 		ArrayList<String> consultaSQL;
 		
-		if(iDfiltro.equals(campos)){
+		/*if(iDfiltro.equals(campos)){
 			consultaSQL=ConsultaSql.consultaCampos(iDfiltro);
 			
 			for(int i=0; i<consultaSQL.size(); i++){
@@ -124,4 +108,7 @@ public class FrameBuscar extends JFrame {
 				comboBoxCoincidir.addItem(consultaSQL.get(i));
 	}
 		
+		}
+		*/
+	}
 }
